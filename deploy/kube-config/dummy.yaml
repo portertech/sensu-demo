@@ -12,9 +12,9 @@ spec:
     spec:
       containers:
         - name: dummy
-          image: portertech/dummy
+          image: portertech/dummy:1.0.0
         - name: sensu-agent
-          image: sensuapp/sensu-go
+          image: sensuapp/sensu-go:2.0.0-alpha.15.1
           command: ["/opt/sensu/bin/sensu-agent", "start"]
           env:
             - name: SENSU_BACKEND_URL
