@@ -13,6 +13,9 @@ spec:
       containers:
         - name: dummy
           image: portertech/dummy:1.0.0
+          ports:
+            - protocol: TCP
+              containerPort: 8080
         - name: sensu-agent
           image: sensuapp/sensu-go:2.0.0-alpha.15.1
           command: ["/opt/sensu/bin/sensu-agent", "start"]
