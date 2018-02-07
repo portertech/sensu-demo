@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dummy
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: dummy
+      labels:
+        app: dummy
+    spec:
+      containers:
+        - name: dummy
+          image: portertech/dummy
+        - name: sensu-agent
+          image: sensuapp/sensu-go
+          command: ["/opt/sensu/bin/sensu-agent", "start"]
+          env:
+            - name: SENSU_BACKEND_URL
+              value: ws://sensu-backend.default.svc.cluster.local:8081
+            - name: SENSU_SUBSCRIPTIONS
+              value: dummy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummy
+spec:
+  selector:
+    app: dummy
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sensu-demo
+spec:
+  rules:
+  - host: sensu.local
+    http:
+      paths:
+      - backend:
+          serviceName: sensu-backend
+          servicePort: 8080
+  - host: dummy.local
+    http:
+      paths:
+      - backend:
+          serviceName: dummy
+          servicePort: 8080
