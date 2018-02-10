@@ -1,4 +1,4 @@
 ## Sensu Prometheus Collector
 
-URL: https://github.com/portertech/sensu-prometheus-collector/releases/download/1.0.0/sensu-prometheus-collector
-SHA: f7508353e40419941c933d4b429a7f55b2abc4280898348e0d83a92aada79f4913ce19d086602972ff6c13c0a1149886f14d3674a3acbb735ba7299d491df84a
+URL: https://github.com/portertech/sensu-prometheus-collector/releases/download/1.0.0/sensu-prometheus-collector.tar
+SHA: c1ec2f493f0ff9d83914e0a1bf3b2f6d424a51ffd9b5852d3dd04e592ebc56ab3d09635540677d6f78ea07138024f3d6a4f7f71e2cb744d7a565d4fa4077611c
