@@ -2,6 +2,30 @@
 
 ## Prerequisites
 
+1. [Install Docker for Mac (Edge)](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+
+2. Enable Kubernetes (in Docker for Mac preferences)
+
+3. Install and configure the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)
+
+Use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac).
+
+```
+kubectl create -f deploy/kube-config/ingress-nginx/services/ingress-nginx.yaml
+```
+
+4. Add local hostnames to `/etc/hosts`
+
+`sudo vi /etc/hosts`
+
+`127.0.0.1       sensu.local influxdb.local dummy.local`
+
+5. Create Kubernetes Ingress Resource
+
+```
+kubectl create -f deploy/kube-config/ingress-nginx/ingress/sensu-demo.yaml
+```
+
 ## Demo
 
 ### Sensu Backend
@@ -80,6 +104,11 @@ kubectl create -f deploy/kube-config/dummy.acme.yaml
 ### Prometheus Scraping
 
 Create "sensu-prometheus-collector" asset in the "acme" organization.
+
+| attribute | value |
+| --- | --- |
+| URL | https://github.com/portertech/sensu-prometheus-collector/releases/download/1.0.0/sensu-prometheus-collector.tar |
+| SHA | c1ec2f493f0ff9d83914e0a1bf3b2f6d424a51ffd9b5852d3dd04e592ebc56ab3d09635540677d6f78ea07138024f3d6a4f7f71e2cb744d7a565d4fa4077611c |
 
 ```
 sensuctl asset create sensu-prometheus-collector --interactive
