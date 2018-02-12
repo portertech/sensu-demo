@@ -18,7 +18,7 @@ Configure `sensuctl` to use the built-in "admin" user.
 sensuctl configure
 ```
 
-### RBAC
+### Multitenancy
 
 Create "acme" organization.
 
@@ -69,7 +69,7 @@ Create "influxdb" UDP event handler for sending metrics to the InfluxDB UDP serv
 sensuctl handler create influxdb --interactive
 ```
 
-### Deploy Dummy App
+### Deploy Application
 
 Deploy "dummy" application pods with Sensu Agent sidecars in the "demo" environment within the "acme" organization.
 
@@ -89,4 +89,10 @@ Create "prometheus" check in the "demo" environment within the "acme" organizati
 
 ```
 sensuctl check create prometheus --interactive
+```
+
+Query InfluxDB to list received series.
+
+```
+curl -GET 'http://influxdb.local/query' --data-urlencode 'q=SHOW SERIES ON sensu'
 ```
