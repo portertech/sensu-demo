@@ -8,7 +8,7 @@
 
 3. Install and configure the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)
 
-Use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
+   Use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
 
 ```
 kubectl create -f deploy/kube-config/ingress-nginx/services/ingress-nginx.yaml
