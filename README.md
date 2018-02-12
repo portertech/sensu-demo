@@ -2,11 +2,11 @@
 
 ## Prerequisites
 
-1. [Install Docker for Mac (Edge)](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+1. [Install Docker for Mac (__Edge__)](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 
-2. Enable Kubernetes (in Docker for Mac preferences)
+2. Enable Kubernetes (in the Docker for Mac preferences)
 
-3. Install and configure the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)
+3. Deploy the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)
 
    Use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
 
@@ -22,7 +22,7 @@ sudo vi /etc/hosts
 127.0.0.1       sensu.local influxdb.local dummy.local
 ```
 
-5. Create Kubernetes Ingress Resource
+5. Create a Kubernetes Ingress Resource
 
 ```
 kubectl create -f deploy/kube-config/ingress-nginx/ingress/sensu-demo.yaml
@@ -53,7 +53,7 @@ sensuctl organization create acme
 sensuctl config set-organization acme
 ```
 
-Create "demo" environment within "acme" organization.
+Create "demo" environment within the "acme" organization.
 
 ```
 sensuctl environment create demo --interactive
