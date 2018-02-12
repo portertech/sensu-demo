@@ -41,13 +41,13 @@ sensuctl role create dev
 sensuctl role add-rule dev --interactive
 ```
 
-Create "demo" user and give it the "dev" role.
+Create "demo" user with the "dev" role.
 
 ```
 sensuctl user create demo --interactive
 ```
 
-Reconfigure `sensuctl` to use the "demo" user.
+Reconfigure `sensuctl` to use the "demo" user, "acme" organization", and "demo" environment.
 
 ```
 sensuctl configure
@@ -63,7 +63,7 @@ kubectl create -f deploy/kube-config/influxdb/influxdb.acme.yaml
 
 ### Sensu InfluxDB Handler
 
-Create a UDP event handler "influxdb" for sending metrics to the InfluxDB UDP service plugin.
+Create "influxdb" UDP event handler for sending metrics to the InfluxDB UDP service plugin.
 
 ```
 sensuctl handler create influxdb --interactive
@@ -71,7 +71,7 @@ sensuctl handler create influxdb --interactive
 
 ### Deploy Dummy App
 
-Deploy Dummy application instances with Sensu Agent sidecars in the "demo" environment within the "acme" organization.
+Deploy "dummy" application pods with Sensu Agent sidecars in the "demo" environment within the "acme" organization.
 
 ```
 kubectl create -f deploy/kube-config/dummy.acme.yaml
@@ -79,13 +79,13 @@ kubectl create -f deploy/kube-config/dummy.acme.yaml
 
 ### Prometheus Scraping
 
-Create a "sensu-prometheus-collector" runtime asset in the "acme" organization.
+Create "sensu-prometheus-collector" asset in the "acme" organization.
 
 ```
 sensuctl asset create sensu-prometheus-collector --interactive
 ```
 
-Create the "prometheus" check in the "demo" environment within the "acme" organization. The check uses the "influxdb" handler previously created.
+Create "prometheus" check in the "demo" environment within the "acme" organization. The check uses the "influxdb" handler previously created.
 
 ```
 sensuctl check create prometheus --interactive
