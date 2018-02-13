@@ -2,13 +2,15 @@
 
 ## Prerequisites
 
-1. [Install Docker for Mac (__Edge__)](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+__[Install Docker for Mac (Edge)](https://store.docker.com/editions/community/docker-ce-desktop-mac)__
 
-2. Enable Kubernetes (in the Docker for Mac preferences)
+__Enable Kubernetes (in the Docker for Mac preferences)__
 
-3. Deploy the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)
+![docker-kubernetes](https://raw.github.com/portertech/sensu-demo/master/images/docker-kubernetes.png)
 
-   Use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
+__Deploy the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)__
+
+Use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
 
 ```
 kubectl create -f deploy/kube-config/ingress-nginx/services/ingress-nginx.yaml
