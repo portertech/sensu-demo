@@ -16,7 +16,7 @@ Use the modified "ingress-nginx" Kubernetes Service definition (works with Docke
 kubectl create -f deploy/kube-config/ingress-nginx/services/ingress-nginx.yaml
 ```
 
-4. Add hostnames to /etc/hosts
+__Add hostnames to /etc/hosts__
 
 ```
 sudo vi /etc/hosts
@@ -24,7 +24,7 @@ sudo vi /etc/hosts
 127.0.0.1       sensu.local influxdb.local dummy.local
 ```
 
-5. Create a Kubernetes Ingress Resource
+__Create a Kubernetes Ingress Resource__
 
 ```
 kubectl create -f deploy/kube-config/ingress-nginx/ingress/sensu-demo.yaml
