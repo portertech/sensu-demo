@@ -6,7 +6,7 @@ __[Install Docker for Mac (Edge)](https://store.docker.com/editions/community/do
 
 __Enable Kubernetes (in the Docker for Mac preferences)__
 
-![docker-kubernetes](https://raw.github.com/portertech/sensu-demo/master/images/docker-kubernetes.png)
+![docker-kubernetes](./images/docker-kubernetes.png =250x)
 
 __Deploy the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)__
 
