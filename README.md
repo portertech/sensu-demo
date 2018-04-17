@@ -86,7 +86,7 @@
 
 ### Deploy InfluxDB
 
-    1. Deploy InfluxDB with a Sensu Agent sidecar
+1. Deploy InfluxDB with a Sensu Agent sidecar
 
     ```
     $ kubectl create -f deploy/kube-config/influxdb/influxdb.acme.yaml
@@ -98,7 +98,7 @@
 
    ```
    $ sensuctl handler create influx --type udp \
-   --socket-host influxdb.default.pod.cluster.local --socket-port 8089 \
+   --socket-host influxdb.default.svc.cluster.local --socket-port 8089 \
    --mutator only_check_output --timeout 5 \
    --organization acme --environment demo
    ```
@@ -127,7 +127,7 @@
    $ sensuctl check create google \
    --runtime-assets check-plugins \
    --command "check-ping -h google.ca -P 80" \
-   --subscriptions workstation --interval 10 --timeout 5 \
+   --subscriptions dummy --interval 10 --timeout 5 \
    --organization acme --environment demo
    ```
 
