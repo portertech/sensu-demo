@@ -1,0 +1,14 @@
+{
+    "type": "Handler",
+    "spec": {
+        "name": "influxdb",
+        "type": "pipe",
+        "command": "sensu-influxdb-handler -a influxdb.default.svc.cluster.local -d sensu -u sensu -p password",
+        "timeout": 10,
+        "filters": [
+            "has_metrics"
+        ],
+        "organization": "acme",
+        "environment": "demo"
+    }
+}
