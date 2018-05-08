@@ -38,6 +38,8 @@
 
    ```
    $ kubectl create -f deploy/kube-config/sensu-backend.yaml
+
+   $ kubectl get pods
    ```
 
 2. Configure `sensuctl` to use the built-in "admin" user
@@ -93,6 +95,8 @@
     ```
     $ kubectl create -f deploy/kube-config/influxdb/influxdb.acme.yaml
 
+    $ kubectl get pods
+
     $ sensuctl entity list
     ```
 
@@ -114,6 +118,10 @@
 
    ```
    $ kubectl create -f deploy/kube-config/dummy.acme.yaml
+
+   $ kubectl get pods
+
+   $ curl -i http://dummy.local
    ```
 
 ### Sensu Monitoring Checks
@@ -134,6 +142,8 @@
    $ sensuctl create -f config/checks/dummy-app-healthz.json
 
    $ sensuctl check info dummy-app-healthz
+
+   $ sensuctl event list
    ```
 
 3. Toggle the dummy app /healthz status
