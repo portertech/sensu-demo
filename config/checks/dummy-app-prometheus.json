@@ -1,7 +1,7 @@
 {
     "type": "Check",
     "spec": {
-        "name": "dummy-app-metrics",
+        "name": "dummy-app-prometheus",
         "runtime_assets": [
             "prometheus-collector"
         ],

@@ -61,6 +61,8 @@
    ```
    $ sensuctl environment create demo --interactive
 
+   $ sensuctl environment list
+
    $ sensuctl config set-environment demo
    ```
 
@@ -90,17 +92,20 @@
 
     ```
     $ kubectl create -f deploy/kube-config/influxdb/influxdb.acme.yaml
+
+    $ sensuctl entity list
     ```
 
 ### Sensu InfluxDB Event Handler
 
-1. Create "influx" UDP event handler for sending metrics to the InfluxDB UDP service plugin
+1. Create "influxdb" event handler for sending Sensu 2.0 metrics to InfluxDB
 
    ```
-   $ sensuctl handler create influx --type udp \
-   --socket-host influxdb.default.svc.cluster.local --socket-port 8089 \
-   --mutator only_check_output --timeout 5 \
-   --organization acme --environment demo
+   $ cat config/handlers/influxdb.json
+
+   $ sensuctl create -f config/handlers/influxdb.json
+
+   $ sensuctl handler info influxdb
    ```
 
 ### Deploy Application
@@ -116,20 +121,27 @@
 1. Register a Sensu 2.0 Asset for check plugins
 
    ```
-   $ sensuctl asset create check-plugins \
-   --url https://github.com/portertech/sensu-plugins-go/releases/download/0.0.1/sensu-check-plugins.tar.gz \
-   --sha512 4e6f621ebe652d3b0ba5d4dead8ddb2901ea03f846a1cb2e39ddb71b8d0daa83b54742671f179913ed6c350fc32446a22501339f60b8d4e0cdb6ade5ee77af16 \
-   --organization acme
+   $ cat config/assets/check-plugins.json
+
+   $ sensuctl create -f config/assets/check-plugins.json
+
+   $ sensuctl asset info check-plugins
    ```
 
-2. Create a check to monitor Google via ICMP from the dummy app pods
+2. Create a check to monitor dummy app /healthz
 
    ```
-   $ sensuctl check create google \
-   --runtime-assets check-plugins \
-   --command "check-ping -h google.ca -P 80" \
-   --subscriptions dummy --interval 10 --timeout 5 \
-   --organization acme --environment demo
+   $ sensuctl create -f config/checks/dummy-app-healthz.json
+
+   $ sensuctl check info dummy-app-healthz
+   ```
+
+3. Toggle the dummy app /healthz status
+
+   ```
+   $ curl -iXPOST http://dummy.local/healthz
+
+   $ sensuctl event list
    ```
 
 ### Prometheus Scraping
@@ -137,24 +149,18 @@
 1. Register a Sensu 2.0 Asset for the Prometheus metric collector
 
    ```
-   $ sensuctl asset create prometheus-collector \
-   --url https://github.com/portertech/sensu-prometheus-collector/releases/download/1.0.0/sensu-prometheus-collector.tar \
-   --sha512 c1ec2f493f0ff9d83914e0a1bf3b2f6d424a51ffd9b5852d3dd04e592ebc56ab3d09635540677d6f78ea07138024f3d6a4f7f71e2cb744d7a565d4fa4077611c \
-   --organization acme
+   $ sensuctl create -f config/assets/prometheus-collector.json
    ```
 
 2. Create a check to collect dummy app Prometheus metrics
 
    ```
-   $ sensuctl check create prometheus \
-   --runtime-assets prometheus-collector \
-   --command "sensu-prometheus-collector -exporter-url http://localhost:8080/metrics" \
-   --subscriptions dummy --interval 10 --timeout 5 \
-   --organization acme --environment demo \
-   --handlers influx
+   $ sensuctl create -f config/checks/dummy-app-prometheus.json
+
+   $ sensuctl check info dummy-app-prometheus
    ```
 
-3. Query InfluxDB to list received series
+3. Query InfluxDB to list the stored series
 
    ```
    $ curl -GET 'http://influxdb.local/query' --data-urlencode 'q=SHOW SERIES ON sensu'
