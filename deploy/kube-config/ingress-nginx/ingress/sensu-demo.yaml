@@ -10,6 +10,12 @@ spec:
       - backend:
           serviceName: sensu-backend
           servicePort: 8080
+  - host: webui.sensu.local
+    http:
+      paths:
+      - backend:
+          serviceName: sensu-backend
+          servicePort: 3000
   - host: influxdb.local
     http:
       paths:

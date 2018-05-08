@@ -21,7 +21,7 @@
    ```
    $ sudo vi /etc/hosts
 
-   127.0.0.1       sensu.local influxdb.local dummy.local
+   127.0.0.1       sensu.local webui.sensu.local influxdb.local dummy.local
    ```
 
 5. __Create a Kubernetes Ingress Resource__
