@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: dummy
-          image: portertech/dummy:1.1.0
+          image: portertech/dummy:1.2.0
           ports:
             - protocol: TCP
               containerPort: 8080
