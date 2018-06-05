@@ -28,6 +28,8 @@ spec:
               value: demo
             - name: SENSU_SUBSCRIPTIONS
               value: dummy
+            - name: SENSU_DEREGISTER
+              value: true
             - name: SENSU_STATSD_EVENT_HANDLERS
               value: statsd
 ---
