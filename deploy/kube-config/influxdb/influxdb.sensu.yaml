@@ -41,7 +41,7 @@ spec:
             - name: SENSU_SUBSCRIPTIONS
               value: influxdb
             - name: SENSU_DEREGISTER
-              value: true
+              value: "true"
             - name: SENSU_STATSD_EVENT_HANDLERS
               value: statsd
       volumes:
