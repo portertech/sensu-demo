@@ -32,6 +32,18 @@
 
 ## Demo
 
+### Deploy Application
+
+1. Deploy dummy app pods
+
+   ```
+   $ kubectl create -f deploy/kube-config/dummy.yaml
+
+   $ kubectl get pods
+
+   $ curl -i http://dummy.local
+   ```
+
 ### Sensu Backend
 
 1. Deploy Sensu Backend
@@ -93,7 +105,7 @@
 1. Deploy InfluxDB with a Sensu Agent sidecar
 
     ```
-    $ kubectl create -f deploy/kube-config/influxdb/influxdb.acme.yaml
+    $ kubectl create -f deploy/kube-config/influxdb/influxdb.sensu.yaml
 
     $ kubectl get pods
 
@@ -114,10 +126,10 @@
 
 ### Deploy Application
 
-1. Deploy dummy app pods with Sensu Agent sidecars
+1. Deploy dummy app Sensu Agent sidecars
 
    ```
-   $ kubectl create -f deploy/kube-config/dummy.acme.yaml
+   $ kubectl apply -f deploy/kube-config/dummy.sensu.yaml
 
    $ kubectl get pods
 
