@@ -187,3 +187,27 @@
    ```
    $ curl -GET 'http://influxdb.local/query' --data-urlencode 'q=SHOW SERIES ON sensu'
    ```
+
+### Deploy Grafana
+
+1. Deploy Grafana with a Sensu Agent sidecar
+
+    ```
+    $ kubectl create -f deploy/kube-config/grafana.sensu.yaml
+
+    $ kubectl get pods
+
+    $ sensuctl entity list
+    ```
+
+### Grafana Data Source
+
+In the Grafana WebUI (http://grafana.local), add the [InfluxDB data source](http://docs.grafana.org/features/datasources/influxdb/).
+
+| Setting | Value |
+| --- | --- |
+| Type | InfluxDB |
+| URL | http://influxdb.default.svc.cluster.local:8086 |
+| Database | sensu |
+| User | sensu |
+| Password | password |

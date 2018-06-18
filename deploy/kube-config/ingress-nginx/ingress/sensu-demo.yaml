@@ -22,6 +22,12 @@ spec:
       - backend:
           serviceName: influxdb
           servicePort: 8086
+  - host: grafana.local
+    http:
+      paths:
+      - backend:
+          serviceName: grafana
+          servicePort: 3001
   - host: dummy.local
     http:
       paths:
