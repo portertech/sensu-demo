@@ -10,7 +10,11 @@
 
 3. __Deploy the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)__
 
-   Use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
+   ```
+   $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
+   ```
+
+   Then use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
 
    ```
    $ kubectl create -f deploy/kube-config/ingress-nginx/services/ingress-nginx.yaml
@@ -21,7 +25,7 @@
    ```
    $ sudo vi /etc/hosts
 
-   127.0.0.1       sensu.local webui.sensu.local influxdb.local dummy.local
+   127.0.0.1       sensu.local webui.sensu.local influxdb.local grafana.local dummy.local
    ```
 
 5. __Create a Kubernetes Ingress Resource__
