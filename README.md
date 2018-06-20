@@ -106,7 +106,13 @@
 
 ### Deploy InfluxDB
 
-1. Deploy InfluxDB with a Sensu Agent sidecar
+1. Create a Kubernetes ConfigMap for InfluxDB configuration
+
+   ```
+   $ kubectl create configmap influxdb-config --from-file deploy/kube-config/influxdb/influxdb.conf
+   ```
+
+2. Deploy InfluxDB with a Sensu Agent sidecar
 
     ```
     $ kubectl create -f deploy/kube-config/influxdb/influxdb.sensu.yaml
