@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: influxdb
-          image: influxdb:1.4.3
+          image: influxdb:1.5.3
           ports:
             - protocol: TCP
               containerPort: 8086
