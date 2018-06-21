@@ -41,7 +41,7 @@
 1. Deploy dummy app pods
 
    ```
-   $ kubectl create -f deploy/kube-config/dummy.yaml
+   $ kubectl apply -f deploy/kube-config/dummy.yaml
 
    $ kubectl get pods
 

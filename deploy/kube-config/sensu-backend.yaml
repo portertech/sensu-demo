@@ -12,8 +12,8 @@ spec:
     spec:
       containers:
         - name: sensu-backend
-          image: portertech/sensu-go:experimental
-          command: ["/opt/sensu/bin/sensu-backend", "start"]
+          image: portertech/sensu-go:demo
+          command: ["/opt/sensu/bin/sensu-backend", "start", "--log-level", "debug"]
           ports:
             - protocol: TCP
               containerPort: 8080
