@@ -1,5 +1,5 @@
 {
-    "type": "Check",
+    "type": "CheckConfig",
     "spec": {
         "name": "dummy-app-healthz",
         "runtime_assets": [
