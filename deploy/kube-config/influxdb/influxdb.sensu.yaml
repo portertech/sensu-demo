@@ -30,7 +30,7 @@ spec:
               value: password
         - name: sensu-agent
           image: sensuapp/sensu-go:master
-          command: ["/opt/sensu/bin/sensu-agent", "start"]
+          command: ["/opt/sensu/bin/sensu-agent", "start", "--log-level", "debug"]
           env:
             - name: SENSU_BACKEND_URL
               value: ws://sensu-backend.default.svc.cluster.local:8081
