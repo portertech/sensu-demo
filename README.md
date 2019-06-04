@@ -35,7 +35,7 @@
 1. Deploy dummy app pods
 
    ```
-   $ kubectl apply -f kube/dummy.yaml
+   $ kubectl apply -f kube/dummy.yml
 
    $ kubectl get pods
 
@@ -85,7 +85,7 @@
 1. Deploy dummy app Sensu Agent sidecars
 
    ```
-   $ kubectl apply -f kube/dummy.sensu.yaml
+   $ kubectl apply -f kube/dummy.sensu.yml
 
    $ kubectl get pods
 
@@ -171,13 +171,13 @@
 1. Register a Sensu Asset for the Prometheus metric collector
 
    ```
-   $ sensuctl create -f config/assets/prometheus-collector.json
+   $ sensuctl create -f sensu/assets/sensu-prometheus-collector-1.1.5-linux-amd64.yml
    ```
 
 2. Create a check to collect dummy app Prometheus metrics
 
    ```
-   $ sensuctl create -f config/checks/dummy-app-prometheus.json
+   $ sensuctl create -f sensu/checks/dummy-app-prometheus.yml
 
    $ sensuctl check info dummy-app-prometheus
    ```
