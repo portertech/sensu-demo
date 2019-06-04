@@ -11,7 +11,11 @@
 3. __Deploy the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)__
 
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/ce418168f4f20a16a8622f17f756b578c1418d29/deploy/mandatory.yaml
+   ```
+
+   ```
+   $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/ce418168f4f20a16a8622f17f756b578c1418d29/deploy/provider/cloud-generic.yaml 
    ```
 
    Then use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
