@@ -1,0 +1,17 @@
+api_version: core/v2
+type: CheckConfig
+metadata:
+  namespace: demo
+  name: sensu-io
+spec:
+  runtime_assets:
+  - check-plugins
+  command: check-http -u https://sensu.io/
+  subscriptions:
+  - dummy
+  publish: true
+  round_robin: true
+  proxy_entity_name: sensu-io
+  interval: 5
+  handlers:
+  - alert
