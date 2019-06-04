@@ -63,6 +63,8 @@
 1. Create "demo" namespace, user role, and role binding
 
    ```
+   $ cat sensu/multitenancy.yml
+
    $ sensuctl create -f sensu/multitenancy.yml
    ```
 
@@ -87,7 +89,19 @@
 
    $ kubectl get pods
 
-   $ curl -i http://dummy.local
+   $ sensuctl entity list
+   ```
+
+2. Scale dummy app
+
+   ```
+   $ kubectl scale --replicas=4 deployment/dummy
+
+   $ sensuctl entity list
+
+   $ kubectl scale --replicas=2 deployment/dummy
+
+   $ sensuctl entity list
    ```
 
 ### Simple Monitoring Check
