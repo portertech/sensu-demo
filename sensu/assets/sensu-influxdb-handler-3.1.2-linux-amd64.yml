@@ -1,0 +1,14 @@
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu-influxdb-handler
+  namespace: demo
+  labels: {}
+  annotations: {}
+spec:
+  url: https://github.com/sensu/sensu-influxdb-handler/releases/download/3.1.2/sensu-influxdb-handler_3.1.2_linux_amd64.tar.gz
+  sha512: 612c6ff9928841090c4d23bf20aaf7558e4eed8977a848cf9e2899bb13a13e7540bac2b63e324f39d9b1257bb479676bc155b24e21bf93c722b812b0f15cb3bd
+  filters:
+  - entity.system.os == 'linux'
+  - entity.system.arch == 'amd64'

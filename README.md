@@ -78,7 +78,7 @@
    $ sensuctl configure
    ```
 
-### Deploy Sidecars
+### Deploy Sensu Sidecars
 
 1. Deploy dummy app Sensu Agent sidecars
 
@@ -88,6 +88,36 @@
    $ kubectl get pods
 
    $ curl -i http://dummy.local
+   ```
+
+### Simple Monitoring Check
+
+1. Register a Sensu Asset for check plugins
+
+   ```
+   $ cat sensu/assets/check-plugins.yml
+
+   $ sensuctl create -f sensu/assets/check-plugins.yml
+
+   $ sensuctl asset info check-plugins
+   ```
+
+2. Create a check to monitor dummy app /healthz
+
+   ```
+   $ sensuctl create -f sensu/checks/dummy-app-healthz.yml
+
+   $ sensuctl check info dummy-app-healthz
+
+   $ sensuctl event list
+   ```
+
+3. Toggle the dummy app /healthz status
+
+   ```
+   $ curl -iXPOST http://dummy.local/healthz
+
+   $ sensuctl event list
    ```
 
 ### Deploy InfluxDB
@@ -110,49 +140,21 @@
 
 ### Sensu InfluxDB Event Handler
 
-1. Create "influxdb" event handler for sending Sensu 2.0 metrics to InfluxDB
+1. Create "influxdb" event handler for sending metrics to InfluxDB
 
    ```
-   $ cat config/handlers/influxdb.json
+   $ sensuctl create -f sensu/assets/sensu-influxdb-handler-3.1.2-linux-amd64.yml
 
-   $ sensuctl create -f config/handlers/influxdb.json
+   $ cat sensu/handlers/influxdb.yml
+
+   $ sensuctl create -f sensu/handlers/influxdb.yml
 
    $ sensuctl handler info influxdb
    ```
 
-### Sensu Monitoring Checks
-
-1. Register a Sensu 2.0 Asset for check plugins
-
-   ```
-   $ cat config/assets/check-plugins.json
-
-   $ sensuctl create -f config/assets/check-plugins.json
-
-   $ sensuctl asset info check-plugins
-   ```
-
-2. Create a check to monitor dummy app /healthz
-
-   ```
-   $ sensuctl create -f config/checks/dummy-app-healthz.json
-
-   $ sensuctl check info dummy-app-healthz
-
-   $ sensuctl event list
-   ```
-
-3. Toggle the dummy app /healthz status
-
-   ```
-   $ curl -iXPOST http://dummy.local/healthz
-
-   $ sensuctl event list
-   ```
-
 ### Prometheus Scraping
 
-1. Register a Sensu 2.0 Asset for the Prometheus metric collector
+1. Register a Sensu Asset for the Prometheus metric collector
 
    ```
    $ sensuctl create -f config/assets/prometheus-collector.json

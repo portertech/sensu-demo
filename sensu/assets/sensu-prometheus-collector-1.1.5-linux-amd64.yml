@@ -1,0 +1,14 @@
+---
+type: Asset
+api_version: core/v2
+metadata:
+  name: sensu-prometheus-collector
+  namespace: demo
+  labels: {}
+  annotations: {}
+spec:
+  url: https://github.com/sensu/sensu-prometheus-collector/releases/download/1.1.5/sensu-prometheus-collector_1.1.5_linux_amd64.tar.gz
+  sha512: 2b183e1262f13f427f8846758b339844812d6a802d5b98ef28ba7959290aefdd4a62060bee867a3faffc9bad1427997c4b50a69e1680b1cda205062b8d8f3be9
+  filters:
+  - entity.system.os == 'linux'
+  - entity.system.arch == 'amd64'
