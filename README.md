@@ -35,7 +35,7 @@
 1. Deploy dummy app pods
 
    ```
-   $ kubectl apply -f deploy/kube-config/dummy.yaml
+   $ kubectl apply -f kube/dummy.yaml
 
    $ kubectl get pods
 
@@ -76,6 +76,18 @@
 
    ```
    $ sensuctl configure
+   ```
+
+### Deploy Sidecars
+
+1. Deploy dummy app Sensu Agent sidecars
+
+   ```
+   $ kubectl apply -f kube/dummy.sensu.yaml
+
+   $ kubectl get pods
+
+   $ curl -i http://dummy.local
    ```
 
 ### Deploy InfluxDB
