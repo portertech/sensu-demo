@@ -1,9 +1,0 @@
-{
-    "type": "Asset",
-    "spec": {
-        "name": "influxdb-handler",
-        "url": "https://github.com/portertech/sensu-influxdb-handler/releases/download/0.0.1/sensu-influxdb-handler.tar",
-        "sha512": "3f99c34302fc532bbc367371a46c3bc80bcf4da4b9bdddae5c06249f6b56412b0ca734b1fb869ee63a966b420c6a1aa374b94a2a5765c8d9daf7e187ca3c6fa0",
-        "organization": "acme"
-    }
-}

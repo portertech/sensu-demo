@@ -1,0 +1,36 @@
+api_version: core/v2
+type: Namespace
+spec:
+  name: demo
+
+---
+type: Role
+api_version: core/v2
+metadata:
+  name: dev
+  namespace: demo
+spec:
+  rules:
+  - resource_names: null
+    resources:
+    - '*'
+    verbs:
+    - get
+    - list
+    - create
+    - update
+    - delete
+
+---
+type: RoleBinding
+api_version: core/v2
+metadata:
+  name: dev
+  namespace: demo
+spec:
+  role_ref:
+    name: dev
+    type: Role
+  subjects:
+  - name: dev
+    type: Group

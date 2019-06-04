@@ -11,13 +11,7 @@
 3. __Deploy the [Kubernetes NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx)__
 
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
-   ```
-
-   Then use the modified "ingress-nginx" Kubernetes Service definition (works with Docker for Mac):
-
-   ```
-   $ kubectl create -f deploy/kube-config/ingress-nginx/services/ingress-nginx.yaml
+   $ kubectl apply -f kube/ingress-nginx/ingress-nginx.yml
    ```
 
 4. __Add hostnames to /etc/hosts__
@@ -31,7 +25,7 @@
 5. __Create a Kubernetes Ingress Resource__
 
    ```
-   $ kubectl create -f deploy/kube-config/ingress-nginx/ingress/sensu-demo.yaml
+   $ kubectl create -f kube/ingress-nginx/sensu-demo.yml
    ```
 
 ## Demo
@@ -41,19 +35,19 @@
 1. Deploy dummy app pods
 
    ```
-   $ kubectl apply -f deploy/kube-config/dummy.yaml
+   $ kubectl apply -f kube/dummy.yml
 
    $ kubectl get pods
 
    $ curl -i http://dummy.local
    ```
 
-### Sensu Backend
+### Sensu
 
-1. Deploy Sensu Backend
+1. Deploy Sensu
 
    ```
-   $ kubectl create -f deploy/kube-config/sensu-backend.yaml
+   $ kubectl apply -f kube/sensu.yml
 
    $ kubectl get pods
    ```
@@ -66,94 +60,58 @@
 
 ### Multitenancy
 
-1. Create "acme" organization
+1. Create "demo" namespace, user role, and role binding
 
    ```
-   $ sensuctl organization create acme
+   $ cat sensu/multitenancy.yml
 
-   $ sensuctl config set-organization acme
+   $ sensuctl create -f sensu/multitenancy.yml
    ```
 
-2. Create "demo" environment within the "acme" organization
-
-   ```
-   $ sensuctl environment create demo --interactive
-
-   $ sensuctl environment list
-
-   $ sensuctl config set-environment demo
-   ```
-
-3. Create "dev" user role with full-access to the "demo" environment
-
-   ```
-   $ sensuctl role create dev -t '*' \
-   --create --delete --update --read \
-   --environment demo --organization acme
-   ```
-
-4. Create "demo" user with the "dev" role
+2. Create "demo" user that is a member of the "dev" group
 
    ```
    $ sensuctl user create demo --interactive
    ```
 
-5. Reconfigure `sensuctl` to use the "demo" user, "acme" organization", and "demo" environment
+3. Reconfigure `sensuctl` to use the "demo" user and "demo" namespace
 
    ```
    $ sensuctl configure
    ```
 
-### Deploy InfluxDB
-
-1. Create a Kubernetes ConfigMap for InfluxDB configuration
-
-   ```
-   $ kubectl create configmap influxdb-config --from-file deploy/kube-config/influxdb/influxdb.conf
-   ```
-
-2. Deploy InfluxDB with a Sensu Agent sidecar
-
-    ```
-    $ kubectl create -f deploy/kube-config/influxdb/influxdb.sensu.yaml
-
-    $ kubectl get pods
-
-    $ sensuctl entity list
-    ```
-
-### Sensu InfluxDB Event Handler
-
-1. Create "influxdb" event handler for sending Sensu 2.0 metrics to InfluxDB
-
-   ```
-   $ cat config/handlers/influxdb.json
-
-   $ sensuctl create -f config/handlers/influxdb.json
-
-   $ sensuctl handler info influxdb
-   ```
-
-### Deploy Application
+### Deploy Sensu Sidecars
 
 1. Deploy dummy app Sensu Agent sidecars
 
    ```
-   $ kubectl apply -f deploy/kube-config/dummy.sensu.yaml
+   $ kubectl apply -f kube/dummy.sensu.yml
 
    $ kubectl get pods
 
-   $ curl -i http://dummy.local
+   $ sensuctl entity list
    ```
 
-### Sensu Monitoring Checks
-
-1. Register a Sensu 2.0 Asset for check plugins
+2. Scale dummy app
 
    ```
-   $ cat config/assets/check-plugins.json
+   $ kubectl scale --replicas=4 deployment/dummy
 
-   $ sensuctl create -f config/assets/check-plugins.json
+   $ sensuctl entity list
+
+   $ kubectl scale --replicas=2 deployment/dummy
+
+   $ sensuctl entity list
+   ```
+
+### Simple Monitoring Check
+
+1. Register a Sensu Asset for check plugins
+
+   ```
+   $ cat sensu/assets/check-plugins.yml
+
+   $ sensuctl create -f sensu/assets/check-plugins.yml
 
    $ sensuctl asset info check-plugins
    ```
@@ -161,7 +119,7 @@
 2. Create a check to monitor dummy app /healthz
 
    ```
-   $ sensuctl create -f config/checks/dummy-app-healthz.json
+   $ sensuctl create -f sensu/checks/dummy-app-healthz.yml
 
    $ sensuctl check info dummy-app-healthz
 
@@ -176,18 +134,50 @@
    $ sensuctl event list
    ```
 
-### Prometheus Scraping
+### Deploy InfluxDB
 
-1. Register a Sensu 2.0 Asset for the Prometheus metric collector
+1. Create a Kubernetes ConfigMap for InfluxDB configuration
 
    ```
-   $ sensuctl create -f config/assets/prometheus-collector.json
+   $ kubectl create configmap influxdb-config --from-file kube/configmap/influxdb-config.conf
+   ```
+
+2. Deploy InfluxDB with a Sensu Agent sidecar
+
+    ```
+    $ kubectl apply -f kube/influxdb.yml
+
+    $ kubectl get pods
+
+    $ sensuctl entity list
+    ```
+
+### Sensu InfluxDB Event Handler
+
+1. Create "influxdb" event handler for sending metrics to InfluxDB
+
+   ```
+   $ sensuctl create -f sensu/assets/sensu-influxdb-handler-3.1.2-linux-amd64.yml
+
+   $ cat sensu/handlers/influxdb.yml
+
+   $ sensuctl create -f sensu/handlers/influxdb.yml
+
+   $ sensuctl handler info influxdb
+   ```
+
+### Prometheus Scraping
+
+1. Register a Sensu Asset for the Prometheus metric collector
+
+   ```
+   $ sensuctl create -f sensu/assets/sensu-prometheus-collector-1.1.5-linux-amd64.yml
    ```
 
 2. Create a check to collect dummy app Prometheus metrics
 
    ```
-   $ sensuctl create -f config/checks/dummy-app-prometheus.json
+   $ sensuctl create -f sensu/checks/dummy-app-prometheus.yml
 
    $ sensuctl check info dummy-app-prometheus
    ```
@@ -203,21 +193,11 @@
 1. Deploy Grafana with a Sensu Agent sidecar
 
     ```
-    $ kubectl create -f deploy/kube-config/grafana.sensu.yaml
+    $ kubectl create configmap grafana-provisioning-datasources --from-file=./kube/configmap/grafana-provisioning-datasources.yml
+
+    $ kubectl create -f kube/grafana.yml
 
     $ kubectl get pods
 
     $ sensuctl entity list
     ```
-
-### Grafana Data Source
-
-In the Grafana WebUI (http://grafana.local), add the [InfluxDB data source](http://docs.grafana.org/features/datasources/influxdb/).
-
-| Setting | Value |
-| --- | --- |
-| Type | InfluxDB |
-| URL | http://influxdb.default.svc.cluster.local:8086 |
-| Database | sensu |
-| User | sensu |
-| Password | password |

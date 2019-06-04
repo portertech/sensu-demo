@@ -1,0 +1,10 @@
+api_version: core/v2
+type: Handler
+metadata:
+  namespace: demo
+  name: alert
+spec:
+  type: set
+  handlers:
+  - slack
+  - pagerduty
