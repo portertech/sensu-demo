@@ -8,13 +8,13 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: sensu-backend
+          serviceName: sensu
           servicePort: 8080
   - host: webui.sensu.local
     http:
       paths:
       - backend:
-          serviceName: sensu-backend
+          serviceName: sensu
           servicePort: 3000
   - host: influxdb.local
     http:
