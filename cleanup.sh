@@ -9,5 +9,5 @@ kubectl delete service influxdb
 kubectl delete deployment grafana
 kubectl delete service grafana
 
-kubectl delete deployment sensu-backend
-kubectl delete service sensu-backend
+kubectl delete statefulset sensu --cascade=true
+kubectl delete service sensu
