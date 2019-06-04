@@ -95,13 +95,13 @@
 1. Create a Kubernetes ConfigMap for InfluxDB configuration
 
    ```
-   $ kubectl create configmap influxdb-config --from-file deploy/kube-config/influxdb/influxdb.conf
+   $ kubectl create configmap influxdb-config --from-file kube/configmap/influxdb-config.conf
    ```
 
 2. Deploy InfluxDB with a Sensu Agent sidecar
 
     ```
-    $ kubectl create -f deploy/kube-config/influxdb/influxdb.sensu.yaml
+    $ kubectl apply -f kube/influxdb.yml
 
     $ kubectl get pods
 
@@ -118,18 +118,6 @@
    $ sensuctl create -f config/handlers/influxdb.json
 
    $ sensuctl handler info influxdb
-   ```
-
-### Deploy Application
-
-1. Deploy dummy app Sensu Agent sidecars
-
-   ```
-   $ kubectl apply -f deploy/kube-config/dummy.sensu.yaml
-
-   $ kubectl get pods
-
-   $ curl -i http://dummy.local
    ```
 
 ### Sensu Monitoring Checks
@@ -189,21 +177,11 @@
 1. Deploy Grafana with a Sensu Agent sidecar
 
     ```
-    $ kubectl create -f deploy/kube-config/grafana.sensu.yaml
+    $ kubectl create configmap grafana-provisioning-datasources --from-file=./kube/configmap/grafana-provisioning-datasources.yml
+
+    $ kubectl create -f kube/grafana.yml
 
     $ kubectl get pods
 
     $ sensuctl entity list
     ```
-
-### Grafana Data Source
-
-In the Grafana WebUI (http://grafana.local), add the [InfluxDB data source](http://docs.grafana.org/features/datasources/influxdb/).
-
-| Setting | Value |
-| --- | --- |
-| Type | InfluxDB |
-| URL | http://influxdb.default.svc.cluster.local:8086 |
-| Database | sensu |
-| User | sensu |
-| Password | password |

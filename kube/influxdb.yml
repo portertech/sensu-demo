@@ -1,0 +1,61 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: influxdb
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: influxdb
+      labels:
+        app: influxdb
+    spec:
+      volumes:
+        - name: influxdb-config
+          configMap:
+            name: influxdb-config
+      containers:
+        - name: influxdb
+          image: influxdb:1.7.6
+          ports:
+            - protocol: TCP
+              containerPort: 8086
+          volumeMounts:
+            - name: influxdb-config
+              mountPath: /etc/influxdb
+          env:
+            - name: INFLUXDB_DB
+              value: sensu
+            - name: INFLUXDB_USER
+              value: sensu
+            - name: INFLUXDB_USER_PASSWORD
+              value: password
+        - name: sensu-agent
+          image: sensu/sensu:5.9.0
+          command: ["/opt/sensu/bin/sensu-agent", "start", "--log-level", "debug"]
+          env:
+            - name: SENSU_BACKEND_URL
+              value: ws://sensu.default.svc.cluster.local:8081
+            - name: SENSU_NAMESPACE
+              value: demo
+            - name: SENSU_SUBSCRIPTIONS
+              value: influxdb
+            - name: SENSU_DEREGISTER
+              value: "true"
+            - name: SENSU_STATSD_EVENT_HANDLERS
+              value: statsd
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb
+spec:
+  selector:
+    app: influxdb
+  type: LoadBalancer
+  ports:
+    - name: api
+      protocol: TCP
+      port: 8086
+      targetPort: 8086
