@@ -42,12 +42,12 @@
    $ curl -i http://dummy.local
    ```
 
-### Sensu Backend
+### Sensu
 
-1. Deploy Sensu Backend
+1. Deploy Sensu
 
    ```
-   $ kubectl create -f deploy/kube-config/sensu-backend.yaml
+   $ kubectl apply -f kube/sensu.yml
 
    $ kubectl get pods
    ```
